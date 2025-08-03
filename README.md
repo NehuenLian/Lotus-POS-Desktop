@@ -18,9 +18,9 @@
 
 ## Tech Stack
 
-- Python
-- SQLAlchemy
-- Pyside6
+![Python](https://img.shields.io/badge/Python-3.x-blue?logo=python&logoColor=white)
+![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-1.4%2B-red?logo=python&logoColor=white)
+![PySide6](https://img.shields.io/badge/PySide6-6.x-green?logo=qt&logoColor=white)
 
 ---
 
