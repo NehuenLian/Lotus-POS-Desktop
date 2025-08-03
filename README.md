@@ -1,5 +1,9 @@
 # Lotus POS
 
+![Python](https://img.shields.io/badge/Python-3.x-blue?logo=python&logoColor=white)
+![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-1.4%2B-red?logo=python&logoColor=white)
+![PySide6](https://img.shields.io/badge/PySide6-6.x-green?logo=qt&logoColor=white)
+
 **Lotus POS** is a desktop Point of Sale system designed for small and medium-sized businesses. It allows you to manage sales, inventory, pricing, and database configuration in a simple way.
 
 ---
@@ -18,9 +22,9 @@
 
 ## Tech Stack
 
-![Python](https://img.shields.io/badge/Python-3.x-blue?logo=python&logoColor=white)
-![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-1.4%2B-red?logo=python&logoColor=white)
-![PySide6](https://img.shields.io/badge/PySide6-6.x-green?logo=qt&logoColor=white)
+- Python
+- SQLAlchemy
+- Pyside6
 
 ---
 
