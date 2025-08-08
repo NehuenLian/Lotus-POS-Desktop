@@ -1,11 +1,13 @@
-# Lotus POS
+# Lotus POS with Fiscal Integration
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python&logoColor=white)
 ![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-2.0.32-red?logo=python&logoColor=white)
 ![PySide6](https://img.shields.io/badge/PySide6-6.9.1-green?logo=qt&logoColor=white)
 ![dotenv](https://img.shields.io/badge/python--dotenv-1.1.0-lightgrey?logo=python&logoColor=white)
+![Zeep](https://img.shields.io/badge/Zeep-4.3.1-yellow)
+![lxml](https://img.shields.io/badge/lxml-5.4.0-orange)
 
-**Lotus POS** is a desktop Point of Sale system designed for small and medium-sized businesses. It allows you to manage sales, inventory, pricing, and database configuration in a simple way.
+**Lotus POS** is a desktop Point of Sale system designed for small and medium-sized businesses, with a built-in module for electronic fiscal invoicing compliant with Argentinian regulations (AFIP/ARCA). It allows you to manage sales, inventory, pricing, and database configuration in a simple way, while also handling the complexities of fiscal integration.
 
 ---
 
@@ -17,30 +19,54 @@
 - **Flexible Configuration:** Change the database URL from the interface and restart the app to apply changes.
 - **Architecture:** Clear separation between business logic, data access, controllers, and views.
 - **Logging:** Log management for auditing and debugging.
-- **Ready for Fiscal Integration:** Designed to integrate with electronic invoicing middleware (AFIP/ARCA) Argentina.
+- **Fiscal Integration (AFIP/ARCA):**
+    - Generates electronic invoices (CAE).
+    - Handles communication with AFIP web services using SOAP.
+    - Manages authentication tokens (TA) and their validity.
+    - Signs requests using a digital certificate and private key.
+    - Builds and validates XML requests and responses.
 
 ---
 
 ## Tech Stack
 
-- Python
-- SQLAlchemy
-- Pyside6
+- **Python**: Core language.
+- **PySide6**: For the desktop GUI.
+- **SQLAlchemy**: For database interaction (ORM).
+- **Zeep & lxml**: For SOAP client and XML processing for fiscal integration.
+- **python-dotenv**: For managing environment variables.
+- **OpenSSL**: Used via command line for cryptographic operations.
+- **tenacity**: For retry logic on web requests.
+- **ntplib**: For time synchronization, critical for token generation.
 
 ---
 
 ## Project Structure
 
+The project has a modular architecture, separating the core POS application from the fiscal integration service.
+
 ```
-src/
-│
-├── business_logic/      # Business logic (sales, stock, prices, settings)
-├── controllers/         # Module controllers
-├── data_access/         # Database access and management (SQLAlchemy)
-├── utils/               # Utilities and logging configuration
-├── views/               # PySide6 views (UI)
-├── exceptions.py        # Custom exceptions
-└── main.py              # Application entry point
+.
+├── bin/                    # OpenSSL binaries for cryptographic operations.
+├── integration/            # Bridge connecting the POS application with the fiscal service.
+│   └── bridge.py
+├── service/                # Fiscal Invoicing Service (AFIP/ARCA integration).
+│   ├── certificates/       # Directory for digital certificates.
+│   ├── controllers/        # Manages the flow of token generation and invoicing.
+│   ├── crypto/             # Handles cryptographic signing of requests.
+│   ├── payload_builder/    # Constructs the XML payload for SOAP requests.
+│   ├── soap_management/    # Manages the SOAP client and communication.
+│   ├── xml_management/     # Handles XML creation and parsing.
+│   └── ...                 # Other utilities for logging, error handling, etc.
+├── src/                    # Core POS Desktop Application.
+│   ├── business_logic/     # Business rules for sales, stock, etc.
+│   ├── controllers/        # Application-level controllers.
+│   ├── data_access/        # Database connection and repositories.
+│   ├── views/              # GUI components (PySide6).
+│   └── ...
+├── main.py                 # Application entry point.
+├── requirements.txt        # Python dependencies.
+└── .env.example            # Example environment variables file.
 ```
 
 ---
@@ -55,7 +81,7 @@ src/
 2. **Create and activate a virtual environment:**
    ```sh
    python -m venv venv
-   venv\Scripts\activate
+   source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
    ```
 
 3. **Install dependencies:**
@@ -63,12 +89,19 @@ src/
    pip install -r requirements.txt
    ```
 
-4. **Configure the database:**
-   - Create a `.env` file in the project root with:
+4. **Configure environment variables:**
+   - Copy the `.env.example` file to `.env` and fill in the required values. This includes the database URL and paths for the fiscal integration certificates and other parameters.
      ```
+     # .env file
      DB_URL="sqlite:///src/data_access/sample_database.db"
+     
+     # Paths for AFIP integration
+     CERT_PATH="service/certificates/your_cert.crt"
+     PRIVATE_KEY_PATH="service/certificates/your_private_key.key"
+     WSDL_URL_WSAA="https://wsaahomo.afip.gov.ar/ws/services/LoginCms?wsdl"
+     WSDL_URL_WSFE="https://wswhomo.afip.gov.ar/wsfev1/service.asmx?WSDL"
+     # ... and other variables from .env.example
      ```
-     Or use your preferred database URL.
 
 ---
 
@@ -87,12 +120,15 @@ src/
 
 ---
 
-## Main Dependencies
+## Dependencies
 
-- [PySide6](https://pypi.org/project/PySide6/) (GUI)
-- [SQLAlchemy](https://www.sqlalchemy.org/) (ORM)
-- [python-dotenv](https://pypi.org/project/python-dotenv/) (Environment variables)
-- [lxml, zeep, tenacity, ntplib] (for fiscal integration)
+All dependencies are listed in `requirements.txt`.
+
+- **GUI**: [PySide6](https://pypi.org/project/PySide6/)
+- **ORM**: [SQLAlchemy](https://www.sqlalchemy.org/)
+- **Environment**: [python-dotenv](https://pypi.org/project/python-dotenv/)
+- **Fiscal Integration (SOAP/XML)**: [zeep](https://pypi.org/project/zeep/), [lxml](https://pypi.org/project/lxml/)
+- **Utilities**: [tenacity](https://pypi.org/project/tenacity/) (for retries), [ntplib](https://pypi.org/project/ntplib/) (for time sync)
 
 ---
 
