@@ -11,6 +11,19 @@
 
 ---
 
+## Tech Stack
+
+- **Python**: Core language.
+- **PySide6**: For the desktop GUI.
+- **SQLAlchemy**: For database interaction (ORM).
+- **Zeep & lxml**: For SOAP client and XML processing for fiscal integration.
+- **python-dotenv**: For managing environment variables.
+- **OpenSSL**: Used via command line for cryptographic operations.
+- **tenacity**: For retry logic on web requests.
+- **ntplib**: For time synchronization, critical for token generation.
+
+---
+
 ## Main Features
 
 - **Sales Management:** Fast sales registration, product selection by barcode, automatic total calculation, and payment method selection.
@@ -28,16 +41,34 @@
 
 ---
 
-## Tech Stack
+## 🏗 Architectural Decisions
 
-- **Python**: Core language.
-- **PySide6**: For the desktop GUI.
-- **SQLAlchemy**: For database interaction (ORM).
-- **Zeep & lxml**: For SOAP client and XML processing for fiscal integration.
-- **python-dotenv**: For managing environment variables.
-- **OpenSSL**: Used via command line for cryptographic operations.
-- **tenacity**: For retry logic on web requests.
-- **ntplib**: For time synchronization, critical for token generation.
+During development, several design decisions were made to prioritize **maintainability**, **scalability**, and **low coupling**.
+
+---
+
+### Domain-specific MVC  
+Each system module (Sales, Prices, Stock) has its own `Model`, `View`, and `Controller`, functioning as independent mini-applications.  
+
+- This allows complete isolation between functionalities, so if a domain breaks or is removed, the others remain unaffected.  
+- It promotes scalability and maintainability, as the flows of different modules never intersect at any point in the lifecycle.
+
+---
+
+### Domain-specific DAO
+Previously, DAOs represented database tables. Now, they represent business contexts and are associated with the module they work with, also promoting decoupling at the data access layer. This avoids mixing queries from different modules in a single file.  
+
+- Less coupling in the data access layer.  
+- More readable code, organized by business context.
+
+---
+
+### “Mirror” objects in the frontend  
+Data is duplicated: the backend keeps the original object for final calculations, while the frontend receives a copy for real-time visual calculations.  
+
+- Decouples presentation and business logic.  
+- More secure, as the backend data does not need to be modified just for frontend display purposes.  
+* This solution addresses the problem that calculations like subtotal or total were done at the end of the flow. To show real-time updates to the user without relying on the backend, this technique was implemented successfully, improving the user experience.
 
 ---
 
@@ -112,7 +143,7 @@ The project has a modular architecture, separating the core POS application from
    python main.py
    ```
 
-2. Navigate through the sections from the sidebar:
+2. You can navigate through the sections from the sidebar:
    - **Stock Lookup**
    - **Price Management**
    - **Sales Registration**
@@ -144,5 +175,4 @@ You are free to use, modify, and distribute the software.
 Developed by Nehuen Lian.
 
 ---
-
-For questions or suggestions open an issue or contact me!
+You can contact me for any question or suggestion.
