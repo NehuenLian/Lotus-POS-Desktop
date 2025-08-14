@@ -40,7 +40,7 @@
     - Builds and validates XML requests and responses.
 
 <p align="center">
-  <img src="assets/frontend_screenshot.png" alt="Lotus POS Frontend" width="700">
+  <img src="images/frontend_screenshot.jpg" alt="Lotus POS Frontend" width="700">
 </p>
 
 ---
