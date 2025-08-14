@@ -39,8 +39,12 @@
     - Signs requests using a digital certificate and private key.
     - Builds and validates XML requests and responses.
 
+---
+<h3 align="center">Frontend screenshot</h3>
 <p align="center">
   <img src="images/frontend_screenshot.jpg" alt="Lotus POS Frontend" width="700">
+  <br>
+  <em>The screenshot shows the app in Spanish, as requested by a real client.</em>
 </p>
 
 ---
