@@ -1,3 +1,5 @@
+![human-coded](https://badgen.net/static/Human%20Coded/100%25/green)
+
 # Lotus POS with Fiscal Integration
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python&logoColor=white)
