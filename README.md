@@ -9,6 +9,12 @@
 
 **Lotus POS** is a desktop Point of Sale system designed for small and medium-sized businesses, with a built-in module for electronic fiscal invoicing compliant with Argentinian regulations (AFIP/ARCA). It allows you to manage sales, inventory, pricing, and database configuration in a simple way, while also handling the complexities of fiscal integration.
 
+## Offline-first and Resilient
+
+The POS software is designed to work primarily offline, ensuring the system remains operational even when internet connectivity fails.
+
+Invoicing is also prepared for this scenario: if an invoice cannot be issued immediately, the sale is marked as **“unbilled”** in the database, and all necessary data to generate the invoice is stored. Later, pending invoices can be sent in batch, ensuring the business’s fiscal integrity.
+
 ---
 
 ## Tech Stack
