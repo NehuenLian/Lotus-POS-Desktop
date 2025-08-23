@@ -11,7 +11,7 @@
 
 ## Offline-first and Resilient
 
-The POS software is designed to work primarily offline, ensuring the system remains operational even when internet connectivity fails.
+The POS software is designed for being "offline-first", ensuring the system remains operational even when internet connectivity fails, and does not depend on it.
 
 Invoicing is also prepared for this scenario: if an invoice cannot be issued immediately, the sale is marked as **“unbilled”** in the database, and all necessary data to generate the invoice is stored. Later, pending invoices can be sent in batch, ensuring the business’s fiscal integrity.
 
