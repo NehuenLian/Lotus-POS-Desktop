@@ -187,7 +187,7 @@ You are free to use, modify, and distribute the software.
 
 ## Author
 
-Developed by Nehuen Lian.
+Developed by Nehuen Lián.
 
 ---
 You can contact me for any question or suggestion.
