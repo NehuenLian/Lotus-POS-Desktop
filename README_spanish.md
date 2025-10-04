@@ -62,8 +62,8 @@ Durante el desarrollo, se tomaron varias decisiones para priorizar la **mantenib
 ### MVC con dominios
 Cada módulo del sistema (Ventas, Precios, Stock) tiene su propia `lógica de negocio`, su propia `Vista` y su propio `controlador`, funcionando de forma independiente.
 
-- Esto permite un desacoplamiento completo entre cada funcionalidad. Si uno se rompe, o es removido, los otros modulos nunca se verán afectados porque no "conocen" entre sí.
-- Promueve la escalabilidad y mantenibilidad, el flujo de ninguno de los modulos nunca se cruza con el flujo de los otros.
+- Esto permite un desacoplamiento completo entre cada funcionalidad. Si uno se rompe, o es removido, los otros modulos nunca se verán afectados porque no se "conocen" entre sí.
+- Promueve la escalabilidad y mantenibilidad, el flujo de ninguno de los módulos nunca se cruza con el flujo de los otros.
 
 ---
 
