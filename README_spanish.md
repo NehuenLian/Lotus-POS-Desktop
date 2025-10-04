@@ -55,7 +55,7 @@ La parte de facturación también está preparada para este escenario: si una fa
 ---
 
 ## 🏗 Decisiones Arquitectónicas
-Durante el desarrollo, se tomaron varias decisiones para priorizar la **mantenibilidad**, **escalabilidad** del código y el **bajo acomplamiento**.
+Durante el desarrollo, se tomaron varias decisiones para priorizar la **mantenibilidad**, **escalabilidad** del código y el **bajo acoplamiento**.
 
 ---
 
