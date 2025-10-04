@@ -80,7 +80,7 @@ Los datos están duplicados: el backend se queda con los datos originales para t
 
 - Desacopla la capa de presentación y la lógica de negocio.
 - Más seguro, los datos del backend no tienen que ser modificados o tratados en otro punto del flujo para cumplir con lo que se debe mostrar en el frontend.
-* Esta solución soluciona el problema donde los cálculos como subtotal o total se hacen al   final del flujo. Para mostrar en tiempo real la actualización de los datos win comprometer al backend, esta técnica fue implementada exitosamente.
+* Esta solución soluciona el problema donde los cálculos como subtotal o total se hacen al   final del flujo. Para mostrar en tiempo real la actualización de los datos sin comprometer al backend, esta técnica fue implementada exitosamente.
 
 ---- 
 
