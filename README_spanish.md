@@ -37,7 +37,7 @@ La parte de facturación también está preparada para este escenario: si una fa
 - **Control de inventario:** Consultar stock de forma instantánea.
 - **Gestión de precios:** Buscar y actualizar/modificar precios de productos.
 - **Configuración flexible:** Se puede cambiar de base de datos colocando simplemente otra URL y reiniciando el software aplicando los cambios.
-- **Arquitecture:** Separación limpia entre capas de negocio, acceso a datos, controladores y vistas.
+- **Arquitectura:** Separación limpia entre capas de negocio, acceso a datos, controladores y vistas.
 - **Logging:** Sistema de logs para debugging sencillo.
 - **Integración fiscal (AFIP/ARCA):**
     - Genera facturas electrónicas (CAE).
