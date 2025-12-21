@@ -113,7 +113,7 @@ The project has a modular architecture.
 
 1. **Clone the repository:**
    ```sh
-   git clone https://github.com/NehuenLian/Lotus-POS-Fiscal-Integration
+   git clone https://github.com/NehuenLian/Lotus-POS-Desktop
    ```
 
 2. **Create and activate a virtual environment:**
