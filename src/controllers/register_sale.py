@@ -39,8 +39,24 @@ class SalesManagementController:
             self._view.show_notification_from_controller("Ocurrió un error desconocido.")
             controller_logger.error(f"Error in SalesManagementController.get_product: {e}")
     
-    def add_new_product(self, product_id, barcode, product_name, available_quantity, price_excl_vat, price_incl_vat, customer_price): # Frontend
-        self.sale_operation.create_product(product_id, barcode, product_name, available_quantity, price_excl_vat, price_incl_vat, customer_price)
+    def add_new_product(self, 
+                        product_id, 
+                        barcode, 
+                        product_name, 
+                        available_quantity, 
+                        price_excl_vat, 
+                        price_incl_vat, 
+                        customer_price
+                    ): # Frontend
+        
+        self.sale_operation.create_product(product_id, 
+                                           barcode, 
+                                           product_name, 
+                                           available_quantity, 
+                                           price_excl_vat, 
+                                           price_incl_vat, 
+                                           customer_price
+                                        )
 
     def remove_product(self, id_to_cancel: int) -> None:
         """
