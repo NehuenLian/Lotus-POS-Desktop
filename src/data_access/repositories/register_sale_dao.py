@@ -38,7 +38,7 @@ class RegisterSaleDAO:
             raise ProductNotFoundError(barcode_or_id=product_id, original_exception=e)
         
         except IntegrityError as e:
-            data_access_logger.exception(f'Database integrity constraint violated during data access operation (UPDATE). Exception details: {e}')
+            data_access_logger.exception(f'Database integrity constraint violated during data access operation(UPDATE). Exception details: {e}')
             raise TransactionIntegrityError(original_exception=e)
         
         except SQLAlchemyError as e:
@@ -61,7 +61,7 @@ class RegisterSaleDAO:
             return sale.id
         
         except IntegrityError as e:
-            data_access_logger.exception(f'Database integrity constraint violated during data access operation (INSERT). Exception details: {e}')
+            data_access_logger.exception(f'Database integrity constraint violated during data access operation(INSERT). Exception details: {e}')
             raise TransactionIntegrityError(original_exception=e)
         
         except SQLAlchemyError as e:
@@ -79,7 +79,7 @@ class RegisterSaleDAO:
             self.session.add(detail)
 
         except IntegrityError as e:
-            data_access_logger.exception(f'Database integrity constraint violated during data access operation (INSERT). Exception details: {e}')
+            data_access_logger.exception(f'Database integrity constraint violated during data access operation(INSERT). Exception details: {e}')
             raise TransactionIntegrityError(original_exception=e)
         
         except SQLAlchemyError as e:
@@ -97,7 +97,7 @@ class RegisterSaleDAO:
             raise ProductNotFoundError(barcode_or_id=sale_id, original_exception=e)
 
         except IntegrityError as e:
-            data_access_logger.exception(f'Database integrity constraint violated during data access operation (UPDATE). Exception details: {e}')
+            data_access_logger.exception(f'Database integrity constraint violated during data access operation(UPDATE). Exception details: {e}')
             raise TransactionIntegrityError(original_exception=e)
         
         except SQLAlchemyError as e:

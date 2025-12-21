@@ -32,7 +32,7 @@ class ManagePricesDAO:
             self.session.query(Stock).filter(Stock.id == product_id).update({"db_final_price_to_consumer": new_price})
         
         except IntegrityError as e:
-            data_access_logger.exception(f'Database integrity constraint violated during data access operation (UPDATE). Exception details: {e}')
+            data_access_logger.exception(f'Database integrity constraint violated during data access operation(UPDATE). Exception details: {e}')
             raise TransactionIntegrityError(original_exception=e)
         
         except SQLAlchemyError as e:
