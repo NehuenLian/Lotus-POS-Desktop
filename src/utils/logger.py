@@ -6,9 +6,9 @@ formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s: %(message
 console_handler = logging.StreamHandler()
 console_handler.setFormatter(formatter)
 
-business_file_handler = TimedRotatingFileHandler('src/POS_logs/business.log', when='midnight', interval=1, backupCount=7)
-data_access_files_handler = TimedRotatingFileHandler('src/POS_logs/data_access.log', when='midnight', interval=1, backupCount=7)
-controller_file_handler = TimedRotatingFileHandler('src/POS_logs/controller.log', when='midnight', interval=1, backupCount=7)
+business_file_handler = TimedRotatingFileHandler('src/logs/business.log', when='midnight', interval=1, backupCount=7)
+data_access_files_handler = TimedRotatingFileHandler('src/logs/data_access.log', when='midnight', interval=1, backupCount=7)
+controller_file_handler = TimedRotatingFileHandler('src/logs/controller.log', when='midnight', interval=1, backupCount=7)
 
 business_file_handler.setFormatter(formatter)
 data_access_files_handler.setFormatter(formatter)
