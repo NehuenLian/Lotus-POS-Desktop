@@ -1,20 +1,18 @@
 ![human-coded](https://badgen.net/static/Human%20Coded/100%25/green)
-# Lotus POS with Fiscal Integration
+# Lotus POS | Point of sale system
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python&logoColor=white)
 ![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-2.0.32-red?logo=python&logoColor=white)
 ![PySide6](https://img.shields.io/badge/PySide6-6.9.1-green?logo=qt&logoColor=white)
 ![dotenv](https://img.shields.io/badge/python--dotenv-1.1.0-lightgrey?logo=python&logoColor=white)
-![Zeep](https://img.shields.io/badge/Zeep-4.3.1-yellow)
-![lxml](https://img.shields.io/badge/lxml-5.4.0-orange)
 
-**Lotus POS** is a desktop Point of Sale system designed for small and medium-sized businesses, with a built-in module for electronic fiscal invoicing compliant with Argentinian regulations (AFIP/ARCA). It allows you to manage sales, inventory, pricing, and database configuration in a simple way, while also handling the complexities of fiscal integration.
+**Lotus POS** is a desktop Point of Sale system designed for small and medium-sized businesses. It allows you to manage sales, inventory, pricing, and database configuration in a simple way.
 
 ## Offline-first and Resilient
 
 The POS software is designed for being "offline-first", ensuring the system remains operational even when internet connectivity fails, and does not depend on it.
 
-Invoicing is also prepared for this scenario: if an invoice cannot be issued immediately, the sale is marked as **“unbilled”** in the database, and all necessary data to generate the invoice is stored. Later, pending invoices can be sent in batch, ensuring the business’s fiscal integrity.
+If electronic invoicing software/service is used and an invoice cannot be approved immediately, the sale is marked as **"pending"** in the sales record, and all necessary data to generate the invoice is saved. Later, pending invoices can be resent if desired, ensuring the business’s fiscal integrity.
 
 ---
 
@@ -23,11 +21,7 @@ Invoicing is also prepared for this scenario: if an invoice cannot be issued imm
 - **Python**: Core language.
 - **PySide6**: For the desktop GUI.
 - **SQLAlchemy**: For database interaction (ORM).
-- **Zeep & lxml**: For SOAP client and XML processing for fiscal integration.
 - **python-dotenv**: For managing environment variables.
-- **OpenSSL**: Used via command line for cryptographic operations.
-- **tenacity**: For retry logic on web requests.
-- **ntplib**: For time synchronization, critical for token generation.
 
 ---
 
@@ -39,12 +33,6 @@ Invoicing is also prepared for this scenario: if an invoice cannot be issued imm
 - **Flexible Configuration:** Change the database URL from the interface and restart the app to apply changes.
 - **Architecture:** Clear separation between business logic, data access, controllers, and views.
 - **Logging:** Log management for auditing and debugging.
-- **Fiscal Integration (AFIP/ARCA):**
-    - Generates electronic invoices (CAE).
-    - Handles communication with AFIP web services using SOAP.
-    - Manages authentication tokens (TA) and their validity.
-    - Signs requests using a digital certificate and private key.
-    - Builds and validates XML requests and responses.
 
 ---
 <h3 align="center">Frontend screenshot</h3>
@@ -87,32 +75,36 @@ Data is duplicated: the backend keeps the original object for final calculations
 
 ---
 
+### Multithreaded Billing
+
+When entering a sale, if it is automatically sent to an external electronic invoicing service, it does not block the UI because this process runs on a separate thread, nor does it stop the program in case of an error. See the code between lines 72-88 in src/controllers/register_sale.py.
+
+---
+
 ## Project Structure
 
-The project has a modular architecture, separating the core POS application from the fiscal integration service.
+The project has a modular architecture.
 
 ```
 .
-├── bin/                    # OpenSSL binaries for cryptographic operations.
-├── integration/            # Bridge connecting the POS application with the fiscal service.
-│   └── bridge.py
-├── service/                # Fiscal Invoicing Service (AFIP/ARCA integration).
-│   ├── certificates/       # Directory for digital certificates.
-│   ├── controllers/        # Manages the flow of token generation and invoicing.
-│   ├── crypto/             # Handles cryptographic signing of requests.
-│   ├── payload_builder/    # Constructs the XML payload for SOAP requests.
-│   ├── soap_management/    # Manages the SOAP client and communication.
-│   ├── xml_management/     # Handles XML creation and parsing.
-│   └── ...                 # Other utilities for logging, error handling, etc.
-├── src/                    # Core POS Desktop Application.
-│   ├── business_logic/     # Business rules for sales, stock, etc.
-│   ├── controllers/        # Application-level controllers.
-│   ├── data_access/        # Database connection and repositories.
-│   ├── views/              # GUI components (PySide6).
-│   └── ...
-├── main.py                 # Application entry point.
-├── requirements.txt        # Python dependencies.
-└── .env.example            # Example environment variables file.
+├── integration/            # Modules to connect with external services (e.g., billing services).
+├── src/                    # Main source code.
+│   ├── business_logic/     # Core logic: business rules, calculations, and processes.
+│   ├── controllers/        # Intermediaries between the view and the logic.
+│   ├── data_access/        # Persistence layer: SQL queries and database access.
+│   ├── logs/
+│   ├── sample_data/
+│   ├── utils/              # Helper functions and reusable tools.
+│   ├── views/              # User interface.
+│   └── exceptions.py       # Custom error definitions.
+├── .env                    # Real environment variables (credentials, local paths).
+├── .env.example            # Template of environment variables for other developers.
+├── .gitignore
+├── LICENSE
+├── main.py                 # Main entry point to run the application.
+├── README_English.md
+├── README_spanish.md
+└── requirements.txt
 ```
 
 ---
@@ -136,17 +128,11 @@ The project has a modular architecture, separating the core POS application from
    ```
 
 4. **Configure environment variables:**
-   - Copy the `.env.example` file to `.env` and fill in the required values. This includes the database URL and paths for the fiscal integration certificates and other parameters.
+   - Copy the `.env.example` file to `.env` and fill in the required values. This includes the database URL and paths for the fiscal integration certificates (if required).
      ```
      # .env file
      DB_URL="sqlite:///src/data_access/sample_database.db"
-     
-     # Paths for AFIP integration
-     CERT_PATH="service/certificates/your_cert.crt"
-     PRIVATE_KEY_PATH="service/certificates/your_private_key.key"
-     WSDL_URL_WSAA="https://wsaahomo.afip.gov.ar/ws/services/LoginCms?wsdl"
-     WSDL_URL_WSFE="https://wswhomo.afip.gov.ar/wsfev1/service.asmx?WSDL"
-     # ... and other variables from .env.example
+
      ```
 
 ---
@@ -173,8 +159,6 @@ All dependencies are listed in `requirements.txt`.
 - **GUI**: [PySide6](https://pypi.org/project/PySide6/)
 - **ORM**: [SQLAlchemy](https://www.sqlalchemy.org/)
 - **Environment**: [python-dotenv](https://pypi.org/project/python-dotenv/)
-- **Fiscal Integration (SOAP/XML)**: [zeep](https://pypi.org/project/zeep/), [lxml](https://pypi.org/project/lxml/)
-- **Utilities**: [tenacity](https://pypi.org/project/tenacity/) (for retries), [ntplib](https://pypi.org/project/ntplib/) (for time sync)
 
 ---
 
