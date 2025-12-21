@@ -1,33 +1,26 @@
 ![human-coded](https://badgen.net/static/Human%20Coded/100%25/green)
-# Lotus POS | Integración fiscal
+# Lotus POS | Sistema de punto de venta
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python&logoColor=white)
 ![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-2.0.32-red?logo=python&logoColor=white)
 ![PySide6](https://img.shields.io/badge/PySide6-6.9.1-green?logo=qt&logoColor=white)
 ![dotenv](https://img.shields.io/badge/python--dotenv-1.1.0-lightgrey?logo=python&logoColor=white)
-![Zeep](https://img.shields.io/badge/Zeep-4.3.1-yellow)
-![lxml](https://img.shields.io/badge/lxml-5.4.0-orange)
 
-**Lotus POS** es una aplicación de escritorio creada para pequeños-medianos negocios, con un servicio de facturación con AFIP/ARCA integrado, cumpliendo con las regulaciones Argentinas. Te permite manejar ventas, inventario, precios y configurar una base de datos de fforma simple.
+**Lotus POS** es una aplicación de escritorio creada para pequeños-medianos negocios. Te permite manejar ventas, inventario, precios y configurar una base de datos de forma simple.
 
 ## Offline-first: resiliente
 
 El software esta diseñado para ser "offline-first", asegurando que el sistema continúe funcionando incluso si hay problemas de internet o si este se cae, no dependa de él.
-
-La parte de facturación también está preparada para este escenario: si una factura no puede ser aprobada inmediatamente, la venta se marca como **pendiente** en el registro de ventas, y todos los datos necesarios para generar la factura son guardados. Más tarde las facturas pendientes pueden ser enviadas en lote, asegurando la integridad fiscal del negocio.
+En caso de usar un software/servicio de facturación electrónica si una factura no puede ser aprobada inmediatamente, la venta se marca como **pendiente** en el registro de ventas, y todos los datos necesarios para generar la factura son guardados. Más tarde las facturas pendientes pueden ser enviadas de nuevo si se desea, asegurando la integridad fiscal del negocio.
 
 ---
 
 ## Stack
 
 - **Python**: Lenguaje principal.
-- **PySide6**: Interfaz de usuario
+- **PySide6**: Interfaz de usuario.
 - **SQLAlchemy**: Interacción con base de datos.
-- **Zeep & lxml**: Para la comunicación con el cliente SOAP y el procesamiento de archivos XML.
 - **python-dotenv**: Manejo de variables de entorno.
-- **OpenSSL**: Utilizado vía CLI para tareas criptográficas.
-- **tenacity**: Para reintentos de peticiones SOAP.
-- **ntplib**: Sincronización de tiempo, importante para la generación de tokens.
 
 ---
 
@@ -39,12 +32,6 @@ La parte de facturación también está preparada para este escenario: si una fa
 - **Configuración flexible:** Se puede cambiar de base de datos colocando simplemente otra URL y reiniciando el software aplicando los cambios.
 - **Arquitectura:** Separación limpia entre capas de negocio, acceso a datos, controladores y vistas.
 - **Logging:** Sistema de logs para debugging sencillo.
-- **Integración fiscal (AFIP/ARCA):**
-    - Genera facturas electrónicas (CAE).
-    - Maneja la comunicación con los servicios WEB de AFIP usando SOAP.
-    - Maneja tokens de autenticación (TA) y su validez.
-    - Firma solicitudes de token de acceso con certificados digitales y claves privadas.
-    - Construye y valida solicitudes y respuestas XML.
 
 <h3 align="center">Screenshot del frontend</h3>
 <p align="center">
@@ -80,36 +67,39 @@ Los datos están duplicados: el backend se queda con los datos originales para t
 
 - Desacopla la capa de presentación y la lógica de negocio.
 - Más seguro, los datos del backend no tienen que ser modificados o tratados en otro punto del flujo para cumplir con lo que se debe mostrar en el frontend.
-* Esta solución soluciona el problema donde los cálculos como subtotal o total se hacen al   final del flujo. Para mostrar en tiempo real la actualización de los datos sin comprometer al backend, esta técnica fue implementada exitosamente.
+* Esta técnica soluciona el problema donde los cálculos como subtotal o total se hacen al final del flujo. Para mostrar en tiempo real la actualización de los datos sin comprometer al backend, esta técnica fue implementada exitosamente.
+
+---
+
+### Facturación multihilo
+Al ingresar una venta, si esta se envía automáticamente a un servicio externo de facturación electrónica, no bloquea la UI porque este proceso se ejecuta en otro hilo, y tampoco detiene el programa en caso de error. Ver el código comprendido entre las lineas 72-88 en src/controllers/register_sale.py
 
 ---- 
 
 # Estructura del Proyecto
 
-El proyecto tiene una arquitectura modular, separando la aplicación principal del POS del servicio de integración fiscal.
+El proyecto tiene una arquitectura modular.
 
 ```
 .
-├── bin/                    # Binarios de OpenSSL para operaciones criptográficas.
-├── integration/            # Puente que conecta la aplicación POS con el servicio fiscal.
-│   └── bridge.py
-├── service/                # Servicio de Facturación Fiscal (integración AFIP/ARCA).
-│   ├── certificates/       # Directorio para certificados digitales.
-│   ├── controllers/        # Maneja el flujo de generación de tokens y facturación.
-│   ├── crypto/             # Se encarga de la firma criptográfica de las solicitudes.
-│   ├── payload_builder/    # Construye el payload XML para las solicitudes SOAP.
-│   ├── soap_management/    # Administra el cliente SOAP y la comunicación.
-│   ├── xml_management/     # Maneja la creación y el parsing de XML.
-│   └── ...                 # Otras utilidades para logging, manejo de errores, etc.
-├── src/                    # Aplicación principal POS de Escritorio.
-│   ├── business_logic/     # Reglas de negocio para ventas, stock, etc.
-│   ├── controllers/        # Controladores a nivel de aplicación.
-│   ├── data_access/        # Conexión a la base de datos y repositorios.
-│   ├── views/              # Componentes de la interfaz gráfica (PySide6).
-│   └── ...
-├── main.py                 # Punto de entrada de la aplicación.
-├── requirements.txt        # Dependencias de Python.
-└── .env.example            # Archivo de ejemplo con variables de entorno.
+├── integration/            # Módulos para conectar con servicios externos (ej. servicios de facturacion).
+├── src/                    # Código fuente principal.
+│   ├── business_logic/     # Lógica central: reglas de negocio, cálculos y procesos.
+│   ├── controllers/        # Intermediarios entre la vista y la lógica.
+│   ├── data_access/        # Capa de persistencia: consultas SQL y acceso a base de datos.
+│   ├── logs/
+│   ├── sample_data/.
+│   ├── utils/              # Funciones auxiliares y herramientas reutilizables.
+│   ├── views/              # Interfaz de usuario.
+│   └── exceptions.py       # Definición de errores personalizados.
+├── .env                    # Variables de entorno reales (credenciales, rutas locales).
+├── .env.example            # Plantilla de variables de entorno para otros desarrolladores.
+├── .gitignore
+├── LICENSE
+├── main.py                 # Punto de entrada principal para ejecutar la aplicación.
+├── README_English.md
+├── README_spanish.md
+└── requirements.txt
 ```
 
 ---
@@ -133,17 +123,11 @@ El proyecto tiene una arquitectura modular, separando la aplicación principal d
     ```
 
 4.  **Configurar variables de entorno:**
-    -   Copia el archivo `.env.example` a `.env` y completa los valores requeridos. Esto incluye la URL de la base de datos y las rutas para los certificados de integración fiscal y otros parámetros.
+    -   Copia el archivo `.env.example` a `.env` y completa los valores requeridos. Esto incluye la URL de la base de datos y las rutas para los certificados de integración fiscal (en caso de ser necesario).
     ```
     # archivo .env
     DB_URL="sqlite:///src/data_access/sample_database.db"
     
-    # Rutas para la integración con AFIP
-    CERT_PATH="service/certificates/your_cert.crt"
-    PRIVATE_KEY_PATH="service/certificates/your_private_key.key"
-    WSDL_URL_WSAA="[https://wsaahomo.afip.gov.ar/ws/services/LoginCms?wsdl](https://wsaahomo.afip.gov.ar/ws/services/LoginCms?wsdl)"
-    WSDL_URL_WSFE="[https://wswhomo.afip.gov.ar/wsfev1/service.asmx?WSDL](https://wswhomo.afip.gov.ar/wsfev1/service.asmx?WSDL)"
-    # ... y otras variables de .env.example
     ```
 
 ---
@@ -170,8 +154,6 @@ Todas las dependencias están listadas en `requirements.txt`.
 -   **Interfaz Gráfica (GUI)**: [PySide6](https://pypi.org/project/PySide6/)
 -   **ORM**: [SQLAlchemy](https://www.sqlalchemy.org/)
 -   **Entorno**: [python-dotenv](https://pypi.org/project/python-dotenv/)
--   **Integración Fiscal (SOAP/XML)**: [zeep](https://pypi.org/project/zeep/), [lxml](https://pypi.org/project/lxml/)
--   **Utilidades**: [tenacity](https://pypi.org/project/tenacity/) (para reintentos), [ntplib](https://pypi.org/project/ntplib/) (para sincronización de tiempo)
 
 ---
 
