@@ -66,7 +66,7 @@ class ProductSale:
 
     def __repr__(self) -> str:
         return (
-            f"Producto: {self.product},\n"
+            f"Product: {self.product},\n"
             f"Quantity: {self.subquantity},\n"
             f"Subtotal: {self.subtotal},\n"
             f"Subtotal excl. VAT: {self.subtotal_excl_vat},\n"
@@ -162,7 +162,14 @@ class SaleManagement:
             with session_scope() as session:
                 query = RegisterSaleDAO(session)
                 product_id, barcode, product_name, available_quantity, price_excl_vat, price_incl_vat , customer_price = query.get_product(barcode)
-                product = Product(product_id, barcode, product_name, available_quantity, price_excl_vat, price_incl_vat, customer_price)
+                product = Product(product_id, 
+                                    barcode, 
+                                    product_name, 
+                                    available_quantity, 
+                                    price_excl_vat, 
+                                    price_incl_vat, 
+                                    customer_price
+                                )
 
                 console_logger.info(f'Barcode recovered:"{barcode}". Product exists. (ID:{product_id}) Product:"{product.product_name}" obtained from database.')
                 if product.product_id:
@@ -170,8 +177,24 @@ class SaleManagement:
         else:
             raise InvalidBarcodeError
             
-    def create_product(self, product_id: int, barcode: str, product_name: str, available_quantity: int, price_excl_vat: Decimal, price_incl_vat: Decimal, customer_price: Decimal) -> None:
-        Product(product_id, barcode, product_name, available_quantity, price_excl_vat, price_incl_vat, customer_price)
+    def create_product(self, 
+                    product_id: int, 
+                    barcode: str, 
+                    product_name: str, 
+                    available_quantity: int, 
+                    price_excl_vat: Decimal, 
+                    price_incl_vat: Decimal, 
+                    customer_price: Decimal
+                ) -> None:
+        
+        Product(product_id, 
+                barcode, 
+                product_name, 
+                available_quantity, 
+                price_excl_vat, 
+                price_incl_vat, 
+                customer_price)
+        
         console_logger.debug(
             f"A product was added with the following characteristics: "
             f"product_id={product_id}, barcode='{barcode}', product_name='{product_name}', "
