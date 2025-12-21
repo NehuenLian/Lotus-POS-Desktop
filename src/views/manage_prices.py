@@ -120,7 +120,13 @@ class PriceViewManager(QWidget):
 
 
     # Update and manipulate view
-    def display_product(self, product_id: int, product_barcode: Optional[str], product_name: str, product_price: Optional[int]) -> None:
+    def display_product(self, 
+                        product_id: int, 
+                        product_barcode: Optional[str], 
+                        product_name: str, 
+                        product_price: Optional[int]
+                    ) -> None:
+        
         self.table.setRowCount(0)
         self.table.insertRow(0)
         self.table.setItem(0, 0, QTableWidgetItem(str(product_id)))

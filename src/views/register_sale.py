@@ -316,7 +316,8 @@ class DomainComponents:
         table = QTableWidget()
 
         table.setColumnCount(8)
-        table.setHorizontalHeaderLabels(["ID", "Código", "Nombre", "Precio", "Cant.", "Subtotal", "Agregar", "Eliminar"])
+        table.setHorizontalHeaderLabels(["ID", "Código", "Nombre", "Precio", 
+                                        "Cant.", "Subtotal", "Agregar", "Eliminar"])
         header = table.horizontalHeader()
 
         header.setSectionResizeMode(0, QHeaderView.Fixed)
