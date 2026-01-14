@@ -3,6 +3,7 @@
     <img src="https://codecov.io/github/NehuenLian/Lotus-POS-Desktop/graph/badge.svg?token=20WL0URAGI" alt="codecov"/>
   </a>
 </p>
+
 # Lotus POS | Sistema de punto de venta
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python&logoColor=white)
