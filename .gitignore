@@ -21,3 +21,6 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
+
+# Ignore .coverage file
+.coverage
