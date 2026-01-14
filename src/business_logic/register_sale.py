@@ -178,15 +178,17 @@ class SaleManagement:
             raise InvalidBarcodeError
             
     def create_product(self, 
-                    product_id: int, 
-                    barcode: str, 
-                    product_name: str, 
-                    available_quantity: int, 
-                    price_excl_vat: Decimal, 
-                    price_incl_vat: Decimal, 
-                    customer_price: Decimal
-                ) -> None:
-        
+            product_id: int, 
+            barcode: str, 
+            product_name: str, 
+            available_quantity: int, 
+            price_excl_vat: Decimal, 
+            price_incl_vat: Decimal, 
+            customer_price: Decimal
+        ) -> None:
+        """
+        This function is only for the frontend and will not be tested.
+        """
         Product(product_id, 
                 barcode, 
                 product_name, 
