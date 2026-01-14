@@ -4,3 +4,4 @@ omit =
     */__init__.py
     logger.py
     database_tables.py
+    connection.py
