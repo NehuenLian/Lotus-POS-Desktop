@@ -86,7 +86,7 @@ class RegisterSaleDAO:
             data_access_logger.exception(f'Unexpected database error during data access operation(INSERT). Exception details: {e}')
             raise DBError(original_exception=e)
         
-    def update_sale_fiscal_status(self, sale_id: int, status: bool):
+    def update_sale_fiscal_status(self, sale_id: int, status: bool) -> None:
         try:
             sale_to_update = self.session.execute(select(Sales).filter_by(id=sale_id)).scalar_one()
             sale_to_update.db_is_invoiced = status
