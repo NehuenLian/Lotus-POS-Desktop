@@ -1,0 +1,44 @@
+name: CI
+
+on: 
+    push:
+        branches:
+            - main
+        paths-ignore:
+          - 'README.md'
+          - 'README_Spanish.md'
+
+    pull_request:
+        branches:
+            - main
+        paths-ignore:
+          - 'README.md'
+          - 'README_Spanish.md'
+
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Set up Python
+              uses: actions/setup-python@v5
+              with:
+                python-version: "3.12"
+
+            - name: Install dependencies
+              run : |
+                python -m pip install --upgrade pip
+                pip install -r requirements.txt
+
+            - name: Run unit tests with coverage
+              run: |
+                pytest --cov=src --cov-branch --cov-report=xml --cov-report=term
+
+            - name: Upload coverage to Codecov
+              uses: codecov/codecov-action@v5
+              with:
+                files: ./coverage.xml
+                token: ${{ secrets.CODECOV_TOKEN }}
