@@ -1,14 +1,13 @@
 from sqlalchemy.exc import ArgumentError
 
-from src.business_logic.manage_prices import PriceManagement
 from src.exceptions import (InvalidPriceError, ProductNotFoundError,
                             TransactionIntegrityError)
 from src.utils.logger import console_logger, controller_logger
 
 
 class PricesManagementController:
-    def __init__(self):
-        self.change_prices = PriceManagement()
+    def __init__(self, change_prices):
+        self.change_prices = change_prices
         self._view = None
 
     @property

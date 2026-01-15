@@ -3,15 +3,14 @@ import threading
 from sqlalchemy.exc import ArgumentError
 
 from integration.bridge import invoicing_controller
-from src.business_logic.register_sale import (Product, SaleManagement,
-                                              SalePersister)
+from src.business_logic.register_sale import Product, SalePersister
 from src.exceptions import InvalidBarcodeError, ProductNotFoundError
 from src.utils.logger import console_logger, controller_logger
 
 
 class SalesManagementController:
-    def __init__(self):
-        self.sale_operation = SaleManagement()
+    def __init__(self, sale_operation):
+        self.sale_operation = sale_operation
         self._view = None
 
     @property

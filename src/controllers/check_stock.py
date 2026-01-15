@@ -1,13 +1,12 @@
 from sqlalchemy.exc import ArgumentError
 
-from src.business_logic.check_stock import CheckStock
 from src.exceptions import ProductNotFoundError
 from src.utils.logger import console_logger, controller_logger
 
 
 class StockManagementController:
-    def __init__(self):
-        self.check_stock = CheckStock()
+    def __init__(self, check_stock):
+        self.check_stock = check_stock
         self._view = None
 
     @property

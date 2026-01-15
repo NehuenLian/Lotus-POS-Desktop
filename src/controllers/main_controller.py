@@ -2,6 +2,9 @@ import os
 
 from PySide6.QtWidgets import QApplication
 
+from src.business_logic.check_stock import CheckStock
+from src.business_logic.manage_prices import PriceManagement
+from src.business_logic.register_sale import SaleManagement
 from src.controllers.check_stock import StockManagementController
 from src.controllers.manage_prices import PricesManagementController
 from src.controllers.register_sale import SalesManagementController
@@ -17,10 +20,15 @@ from src.views.settings import SettingsViewManager
 
 class MainController:
     def __init__(self):
+        # Business controllers
+        self.stock_manager = CheckStock()
+        self.prices_manager = PriceManagement()
+        self.sales_manager = SaleManagement()
+
         # Domain controllers
-        self.stock_controller = StockManagementController()
-        self.price_controller = PricesManagementController()
-        self.sales_controller = SalesManagementController()
+        self.stock_controller = StockManagementController(self.stock_manager)
+        self.price_controller = PricesManagementController(self.prices_manager)
+        self.sales_controller = SalesManagementController(self.sales_manager)
         self.settings_controller = SettingsController()
 
         # Domain views
