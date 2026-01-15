@@ -1,7 +1,9 @@
-from ...data_access.fake_dao import FakeCheckStockDAO
 from unittest.mock import MagicMock, patch
 
 from src.business_logic.check_stock import CheckStock
+
+from ...data_access.fake_dao import FakeCheckStockDAO
+
 
 def test_search_product():
 

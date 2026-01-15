@@ -1,9 +1,12 @@
-from ...data_access.fake_dao import FakeManagePricesDAO
 from unittest.mock import MagicMock, patch
+
+import pytest
 
 from src.business_logic.manage_prices import PriceManagement
 from src.exceptions import InvalidPriceError
-import pytest
+
+from ...data_access.fake_dao import FakeManagePricesDAO
+
 
 def test_search_product():
 
