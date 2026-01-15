@@ -1,6 +1,6 @@
-from typing import Tuple
-from decimal import Decimal
 import datetime
+from decimal import Decimal
+from typing import Tuple
 
 
 class FakeRegisterSaleDAO:
