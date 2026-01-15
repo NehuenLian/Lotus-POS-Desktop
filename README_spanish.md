@@ -20,7 +20,13 @@
 - Modificar precios.
 - Offline-first (Funciona sin internet).
 
-- Para saber más sobre cómo está construida la app, se pueden consultar los Registros de Decisiones de Arquitectura (ADRs) en `/docs/adr/`.
+Para saber más sobre cómo está construida la app, se pueden consultar los Registros de Decisiones de Arquitectura (ADRs) en `/docs/adr/`.
+
+<h3 align="center">Screenshot del frontend</h3>
+<p align="center">
+  <img src="images/frontend_screenshot.jpg" alt="Lotus POS Frontend" width="700">
+  <br>
+</p>
 
 ---
 
