@@ -11,6 +11,7 @@ from src.data_access.connection import DataBaseConnection
 from src.data_access.database_tables import Stock
 
 
+# Integration tests settings
 @pytest.fixture
 def insert_data_in_memory_db():
     DataBaseConnection.reset_singleton()
