@@ -64,13 +64,6 @@ class SalesManagementController:
         """
         console_logger.info(f'User choice to remove product with ID: {id_to_cancel} from cart.')
         self.sale_operation.cancel_product(id_to_cancel)
-    
-    def update_product_status(self, product: Product) -> None:
-        """
-        The DTO 'Product' transitions into a sales-state object, acquiring attributes such as 'subtotal' or 'quantity per product' (subquantity).
-        """
-        console_logger.info('Product transitions into a sales-state object')
-        self.sale_operation.build_product_sale(product)
 
     def select_pay_method(self, method: str) -> None:
         self.sale_operation.set_pay_method(method)
