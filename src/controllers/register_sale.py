@@ -6,6 +6,7 @@ from integration.bridge import invoicing_controller
 from src.business_logic.register_sale import Product, SalePersister
 from src.exceptions import InvalidBarcodeError, ProductNotFoundError
 from src.utils.logger import console_logger, controller_logger
+from src.utils.thread_manager import use_other_thread
 
 
 class SalesManagementController:
@@ -98,6 +99,4 @@ class SalesManagementController:
                 console_logger.exception(f"Error in invoicing thread for Sale {sale_id}: {e}")
                 sale_persister.update_fiscal_status(sale_id, False)
 
-        thread = threading.Thread(target=facturation_task)
-        thread.daemon = True
-        thread.start()
+        use_other_thread(facturation_task)
