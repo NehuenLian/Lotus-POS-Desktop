@@ -1,11 +1,51 @@
+import csv
+from contextlib import contextmanager
+from datetime import date, time
 from decimal import Decimal
 
 import pytest
 
-from src.business_logic.register_sale import Product, ProductSale, SaleManagement, SalePersister
-from datetime import date, time
+from src.business_logic.register_sale import (Product, ProductSale,
+                                              SaleManagement, SalePersister)
+from src.data_access.connection import DataBaseConnection
+from src.data_access.database_tables import Stock
 
 
+@pytest.fixture
+def insert_data_in_memory_db():
+    DataBaseConnection.reset_singleton()
+
+    DB_URL = "sqlite:///:memory:"
+    CSV_PATH = "src/sample_data/inventory.csv"
+
+    connection = DataBaseConnection(DB_URL)
+    session = connection.get_session()
+
+    with open(CSV_PATH, newline='', encoding='utf-8') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            stock_row = Stock(**row)
+            session.add(stock_row)
+            session.commit()
+
+@contextmanager
+def mock_session_scope():
+
+    DB_URL = "sqlite:///:memory:"
+    connection = DataBaseConnection(DB_URL)
+    session = connection.get_session()
+
+    try:
+        yield session
+        session.commit()
+    except Exception:
+        session.rollback()
+        raise
+    finally:
+        session.close()
+
+
+# Unit tests settings
 @pytest.fixture(autouse=True)
 def clear_instances():
 
