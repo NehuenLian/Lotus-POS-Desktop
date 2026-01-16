@@ -17,17 +17,38 @@ def insert_data_in_memory_db():
     DataBaseConnection.reset_singleton()
 
     DB_URL = "sqlite:///:memory:"
-    CSV_PATH = "src/sample_data/inventory.csv"
-
     connection = DataBaseConnection(DB_URL)
     session = connection.get_session()
 
-    with open(CSV_PATH, newline='', encoding='utf-8') as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            stock_row = Stock(**row)
-            session.add(stock_row)
-            session.commit()
+    filas = [
+        Stock(
+            db_barcode="7790895000997",
+            db_product_name="COCA COLA SABOR ORIGINAL 2.25L",
+            db_available_quantity=100,
+            db_final_price_to_consumer=3852.81,
+            db_price_excl_vat=2892.56,
+            db_price_incl_vat=3500.00
+        ),
+        Stock(
+            db_barcode="7798339251141",
+            db_product_name="CERVEZA ARTESANAL PAMPA",
+            db_available_quantity=100,
+            db_final_price_to_consumer=2200.00,
+            db_price_excl_vat=1652.89,
+            db_price_incl_vat=2000.00
+        ),
+        Stock(
+            db_barcode="7790490998309",
+            db_product_name="EDULCORANTE HILERET CLASICO",
+            db_available_quantity=100,
+            db_final_price_to_consumer=1320.00,
+            db_price_excl_vat=991.74,
+            db_price_incl_vat=1200.00
+        )
+    ]
+
+    session.add_all(filas)
+    session.commit()
 
 @contextmanager
 def mock_session_scope():
