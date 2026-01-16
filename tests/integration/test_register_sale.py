@@ -6,6 +6,8 @@ from src.controllers.register_sale import SalesManagementController
 from ..conftest import mock_session_scope
 from ..views.fake_views import FakeSalesViewManager
 
+def thread_mock(facturation_handler):
+    return facturation_handler()
 
 def test_register_sale_success(insert_data_in_memory_db):
     fake_view = FakeSalesViewManager()
@@ -24,4 +26,5 @@ def test_register_sale_success(insert_data_in_memory_db):
 
         register_sale_mgmt.select_pay_method("Cash")
 
-        register_sale_mgmt.complete_sale()
+        with patch("src.controllers.register_sale.use_other_thread", thread_mock):
+            register_sale_mgmt.complete_sale()
