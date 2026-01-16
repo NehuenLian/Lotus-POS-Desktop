@@ -28,6 +28,10 @@ class DataBaseConnection:
         if self.session is None:
             self.connect()
         return self.session
+    
+    @classmethod
+    def reset_singleton(cls):
+        cls._instance = None
 
     def close(self) -> None:
         if self.session:
