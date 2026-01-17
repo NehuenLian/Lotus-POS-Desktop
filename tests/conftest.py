@@ -12,13 +12,17 @@ from src.data_access.database_tables import Stock
 
 
 # Integration tests settings
-@pytest.fixture
-def insert_data_in_memory_db():
-    DataBaseConnection.reset_singleton()
-
+def get_memory_session():
     DB_URL = "sqlite:///:memory:"
     connection = DataBaseConnection(DB_URL)
     session = connection.get_session()
+
+    return session
+
+@pytest.fixture
+def insert_data_in_memory_db():
+    DataBaseConnection.reset_singleton()
+    session = get_memory_session()
 
     filas = [
         Stock(
@@ -53,9 +57,7 @@ def insert_data_in_memory_db():
 @contextmanager
 def mock_session_scope():
 
-    DB_URL = "sqlite:///:memory:"
-    connection = DataBaseConnection(DB_URL)
-    session = connection.get_session()
+    session = get_memory_session()
 
     try:
         yield session
@@ -78,7 +80,6 @@ def clear_instances():
 
     Product.clear_product_instance_list()
     ProductSale.clear_productsale_instances()
-
 
 def prepare_for_sale_persister():
     ProductSale(Product(
