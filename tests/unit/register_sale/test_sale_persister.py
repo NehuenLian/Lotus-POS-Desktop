@@ -43,7 +43,7 @@ def test_insert_sale():
     sale_id is the id returned after a session.flush()
     """
 
-    # - SalePersister needs an SaleManagement instance on runtime
+    # - SalePersister needs a SaleManagement instance on runtime
     sale_mgmt = SaleManagement()
     sale_mgmt.total_quantity = 3.15
     sale_mgmt.amount = 20
@@ -52,7 +52,7 @@ def test_insert_sale():
     sale_mgmt.pay_method = "Cash"
     sale_mgmt.sale_date = date.today()
     sale_mgmt.sale_hour = time(14, 30, 0)
-    # - SalePersister needs an SaleManagement instance on runtime
+    # - SalePersister needs a SaleManagement instance on runtime
 
     session_mock = MagicMock()
     with patch("src.business_logic.register_sale.session_scope", session_mock):
