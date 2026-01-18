@@ -1,10 +1,8 @@
-from dotenv import load_dotenv
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication
 
 from src.controllers.main_controller import MainController
 
-load_dotenv()
 
 def load_stylesheet(app):
     with open("src/views/assets/styles.qss", "r") as f:
