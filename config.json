@@ -1,0 +1,5 @@
+{
+  "database": {
+    "url": "sqlite:///src/data_access/sample_database.db"
+  }
+}

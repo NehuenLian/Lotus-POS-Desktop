@@ -62,10 +62,14 @@ To learn more about how the app is built, you can consult the Architecture Decis
   ```
 
 5. **Environment variables configuration:**  
-Set the database URL in a `.env` file following the format in the sample file `.env.example:`
+Set the database URL in a `config.json` file in `url`:
 #
 `
-DB_URL="sqlite:///your_database"
+{
+  "database": {
+    "url": "sqlite:///src/data_access/sample_database.db"
+  }
+}
 `
 
 # Test setup

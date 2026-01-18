@@ -59,11 +59,15 @@ Para saber más sobre cómo está construida la app, se pueden consultar los Reg
   pip install -r requirements.txt
   ```
 
-5. **Configuración de variables de entorno:**  
-Colocar la URL de la base de datos en un archivo `.env` siguendo la forma del archivo de muestra `.env.example:` 
+5. **Configuración de base de datos:**  
+Colocar la URL de la base de datos en el archivo `config.json` en `url`:
 #
 `
-DB_URL="sqlite:///your_database"
+{
+  "database": {
+    "url": "sqlite:///src/data_access/sample_database.db"
+  }
+}
 `
 
 # Setup de prueba
