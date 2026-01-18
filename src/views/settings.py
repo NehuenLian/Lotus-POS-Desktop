@@ -100,7 +100,7 @@ class DomainComponents:
         input_field.setPlaceholderText("Ingrese una URL...")
         input_field.setFixedWidth(200)
         input_field.setFixedHeight(35)
-        input_field.setMaxLength(40)
+        input_field.setMaxLength(150)
 
         return input_field
     
