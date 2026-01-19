@@ -25,3 +25,6 @@ __pycache__/
 
 # Ignore .coverage file
 .coverage
+
+/build
+/dist
