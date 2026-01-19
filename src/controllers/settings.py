@@ -1,5 +1,8 @@
 import os
+import subprocess
 import sys
+
+from PySide6.QtWidgets import QApplication
 
 from src.business_logic.settings import SettingsManagement
 
@@ -21,6 +24,10 @@ class SettingsController:
         self.settings_management.update_db_url(db_url)
 
     def restart_program(self) -> None:
-        """Close and relaunch app"""
-        python = sys.executable
-        os.execl(python, python, *sys.argv)
+
+        if getattr(sys, 'frozen', False):
+            os.startfile(sys.executable)
+        else:
+            subprocess.Popen([sys.executable] + sys.argv)
+        
+        QApplication.quit()
