@@ -97,6 +97,8 @@ Estos se pueden usar para **consultar stock**, **registrar ventas** o **modifica
   "main.py"
 ```
 
+- Luego colocar en **settings** la URL de la base de datos a conectar con la aplicación.
+
 ---
 
 # Como usar

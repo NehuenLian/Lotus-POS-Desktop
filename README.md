@@ -96,6 +96,8 @@ These can be used to **check stock**, **register sales**, or **modify prices**.
   "main.py"
 ```
 
+- Then set the database URL for the application to connect to in **settings**.
+
 ---
 
 # How to use
