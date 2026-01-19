@@ -73,7 +73,7 @@ Colocar la URL de la base de datos en el archivo `config.json` en `url`:
 
 # Setup de prueba
 
-Para una prueba rápida, se encuentra en el repositorio remoto una base de datos de ejemplo en `src/data_access/sample_database.db` y un archivo .CSV con datos de productos en `src/sample_data/inventory.csv`. Para usar esta base de datos, se debe colocar en el `.env` la misma URL que aparece en el archivo `.env.example`:  
+Para una prueba rápida, se encuentra en el repositorio remoto una base de datos de ejemplo en `src/data_access/sample_database.db` y un archivo .CSV con datos de productos en `src/sample_data/inventory.csv`. Para usar esta base de datos, el archivo `config.json` ya trae configurada esta URL:
 #
 `
 DB_URL="sqlite:///src/data_access/sample_database.db"
@@ -81,6 +81,21 @@ DB_URL="sqlite:///src/data_access/sample_database.db"
 #    
 Los códigos de barras de los productos registrados en la base de datos de prueba se encuentran en `src/sample_data/inventory.csv`.  
 Estos se pueden usar para **consultar stock**, **registrar ventas** o **modificar precios.**
+
+# Empaquetado
+
+- Comando básico para empaquetar la app:
+```bash
+  pyinstaller --noconfirm --onedir --console --name "LotusPOS" `
+  --icon "src/views/assets/app_icon.ico" `
+  --add-data "src/views/assets;src/views/assets" `
+  --add-data "src/data_access/sample_database.db;src/data_access" `
+  --add-data "src/sample_data;src/sample_data" `
+  --collect-all "PySide6" `
+  --hidden-import "sqlalchemy.sql.default_comparator" `
+  --paths "src" `
+  "main.py"
+```
 
 ---
 
@@ -90,6 +105,7 @@ Estos se pueden usar para **consultar stock**, **registrar ventas** o **modifica
   ```bash
   python main.py
   ```
+  O abrir el .exe luego de empaquetar.
 
 2.  **Se puede navegar por las secciones desde la barra lateral:**  
   - Consulta de Stock  

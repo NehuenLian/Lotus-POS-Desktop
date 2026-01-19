@@ -75,8 +75,7 @@ Set the database URL in a `config.json` file in `url`:
 
 # Test setup
 
-For a quick test, the remote repository includes a sample database located at `src/data_access/sample_database.db` and a .CSV file with product data at `src/sample_data/inventory.csv`.
-To use this database, set the same URL shown in `.env.example` inside your `.env` file:
+For a quick test, the remote repository includes a sample database located at `src/data_access/sample_database.db` and a .CSV file with product data at `src/sample_data/inventory.csv`. To use this database, the `config.json` file already comes with this URL configured:
 #
 `
 DB_URL="sqlite:///src/data_access/sample_database.db"
@@ -84,6 +83,18 @@ DB_URL="sqlite:///src/data_access/sample_database.db"
 #    
 The barcodes of the products registered in the sample database can be found in `src/sample_data/inventory.csv`.
 These can be used to **check stock**, **register sales**, or **modify prices**.
+
+# Packing
+- Basic command to package the app:
+```bash
+  pyinstaller --noconfirm --onedir --console --name "LotusPOS" `
+  --icon "src/views/assets/app_icon.ico" `
+  --add-data "src/views/assets;src/views/assets" `
+  --collect-all "PySide6" `
+  --hidden-import "sqlalchemy.sql.default_comparator" `
+  --paths "src" `
+  "main.py"
+```
 
 ---
 
@@ -93,6 +104,7 @@ These can be used to **check stock**, **register sales**, or **modify prices**.
   ```bash
   python main.py
   ```
+  Or open the .exe after packaging
 
 2.  **Navigate through sections using the sidebar:**  
  - Stock Consultation
