@@ -19,7 +19,7 @@ from src.views.settings import SettingsViewManager
 
 
 class MainController:
-    def __init__(self):
+    def __init__(self, db_url: str):
         # Business controllers
         self.stock_manager = CheckStock()
         self.prices_manager = PriceManagement()
@@ -51,11 +51,10 @@ class MainController:
         self.sales_controller.view = self.sales_view
         self.settings_controller.view = self.settings_view
 
-        self._connect_db()
+        self._connect_db(db_url)
 
-    def _connect_db(self) -> None:
+    def _connect_db(self, db_url: str) -> None:
         try:
-            db_url = os.getenv("DB_URL")
             connection = DataBaseConnection(db_url)
             connection.connect()
 
