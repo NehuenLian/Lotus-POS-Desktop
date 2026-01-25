@@ -85,6 +85,12 @@ The barcodes of the products registered in the sample database can be found in `
 These can be used to **check stock**, **register sales**, or **modify prices**.
 
 # Packing
+
+To run the packaging command, **pyinstaller** must be installed:
+```bash
+  pip install pyinstaller
+```
+
 - Basic command to package the app:
 ```bash
   pyinstaller --noconfirm --onedir --console --name "LotusPOS" `

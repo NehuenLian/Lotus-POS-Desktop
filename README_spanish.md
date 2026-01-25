@@ -84,6 +84,11 @@ Estos se pueden usar para **consultar stock**, **registrar ventas** o **modifica
 
 # Empaquetado
 
+Para ejecutar el comando de empaquetado, se debe tener **pyinstaller** instalado:
+```bash
+  pip install pyinstaller
+```
+
 - Comando básico para empaquetar la app:
 ```bash
   pyinstaller --noconfirm --onedir --console --name "LotusPOS" `
