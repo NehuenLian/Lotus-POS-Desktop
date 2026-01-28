@@ -1,4 +1,4 @@
-## Architecture Decision Record 14/07/2026  
+## Architecture Decision Record 14/07/2025  
 View–Controller Communication Design
 
 ### Context
